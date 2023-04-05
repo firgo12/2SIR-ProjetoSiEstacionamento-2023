@@ -1,144 +1,103 @@
-1. Introdução
-1.1 Propósito
-Este documento descreve os requisitos de um sistema para controle de estacionamento de um shopping. Destina-se
-ao projetista, desenvolvedor e mantenedor do sistema de estacionamento.
-1.2 Escopo
-A função do sistema de estacionamento é dar apoio computadorizado a um estacionamento de um shopping.
-1.3 Visão Geral
-O restante deste documento está organizado como segue: inicialmente, definem-se alguns termos importantes para
-entendimento do documento. A Seção 2 contém uma descrição geral do sistema de estacionamento de shopping. A
-Seção 3 identifica os requisitos funcionais específicos, as interfaces externas e os requisitos de desempenho do
-sistema.
-1.4 Definições
- Bilhete: permite o uso do estacionamento do shopping por uma vez, sendo depois descartável. O bilhete
-registra a entrada no estacionamento para que seja pago o estacionamento do shopping, ou caso não seja
-ultrapassada a franquia de 20 minutos, liberar a saída do veículo do estacionamento.
- Cartão: permite o uso do estacionamento por clientes preferenciais. Apresenta uma data de validade e ela pode
-ser atualizada. No caso de mensalistas, a data é atualizada se for feito o pagamento mensal.
- Caixa de estacionamento: opção de caixa para pagamento e validação de bilhete de estacionamento com
-auxílio de um atendente, assim como para aquisição e atualização de cartão de estacionamento.
- Lombada eletrônica: sensor no chão para fechar a cancela após o veículo passar pela máquina de controle de
-entrada e de saída.
- Cancela: dispositivo para permitir a passagem de veículos na entrada e saída do estacionamento, apenas caso a
-operação na máquina de controle seja válida (entrada: retirada de bilhete/cartão válido; saída: bilhete válido).
-2. Descrição Geral
-2.1 Funções do Produto
-O software deve permitir que o estacionamento do shopping trabalhe de forma computadorizada. O sistema de
-estacionamento possui um computador central que mantém os dados de estacionamentos realizados com o uso de
-bilhetes, as suas informações, o histórico de uso do estacionamento pelos clientes preferenciais, portadores de
-cartões. As máquinas de controle de entrada e de saída do estacionamento aceitam um cartão como entrada e
-comunicam-se com o computador central para verificar a validade do cartão do cliente. Além disso, a máquina de
-controle de entrada emite bilhetes e a de saída reconhece e valida esses bilhetes.
-2.2 Características do Usuário
- Cliente: interage com o sistema de estacionamento do shopping via uma máquina de controle de entrada e
-de saída, pelo uso de um bilhete. É desejável que seja bem fácil usar a máquina, mas, em caso de dúvida,
-deve haver algum tipo de suporte ao cliente. Além disso, o cliente pode pagar o valor do estacionamento ao
-atendente no caixa do estacionamento.
- Cliente preferencial: interage com o sistema de estacionamento do shopping via uma máquina de controle
-de entrada e de saída, pelo uso de um cartão. É desejável que seja bem fácil usar a máquina, mas, em caso
-de dúvida, deve haver algum tipo de suporte ao cliente. Além disso, o cliente indiretamente pode usar os
-caixas de estacionamento com atendente para poder adquirir um cartão e renová-lo.
- Atendente: interage com o sistema de estacionamento para registrar o pagamento de bilhetes, a
-mensalidade de cartões e validação de bilhetes e de cartões.
- Mantenedor: é a pessoa responsável por manter o sistema, por exemplo, conectar uma nova máquina de
-controle de entrada ou de saída no estacionamento, quando necessário.
-3. Requisitos Específicos
-3.1 Requisitos Funcionais
-3.1.1 Controle de Entradas
-F1 – O sistema deve fornecer duas opções para entrada no estacionamento: por meio da retirada de um bilhete ou
-pela inserção de um cartão de estacionamento do shopping.
-F2 – O sistema deve permitir ao cliente pegar um bilhete na entrada apenas se houver vaga disponível no
-estacionamento. Caso não haja vaga no estacionamento, o sistema deve informar ao cliente a não disponibilidade
-de vagas pelo visor.
-F3 – O sistema deve permitir acesso ao cliente com cartão apenas se houver vaga disponível no estacionamento.
-Caso não haja vaga no estacionamento, o sistema deve devolver o cartão do cliente sem realizar qualquer operação.
-F4 – Caso seja inserido um cartão, o sistema deve validar o cartão, considerando a data de validade e o tipo de
-cartão. Caso o cartão esteja inválido, uma mensagem deve ser exibida ao cliente informando o motivo, o cartão é
-devolvido ao cliente e ele tem as opções de retirar um bilhete ou inserir novamente um cartão.
-F5 – A cancela será aberta quando o cliente retirar o bilhete da máquina de controle de entrada ou quando o cliente
-retirar o cartão da máquina de controle após validação correta pelo sistema. Após o veículo passar pela lombada
-eletrônica, a cancela é fechada.
-3.1.2 Controle de Saídas
-F6 – Caso seja inserido um bilhete, o sistema deve validar se o estacionamento foi pago nos últimos vinte minutos,
-se o período de permanência não passou de vinte minutos ou se o período de permanência está dentro do intervalo
-em que o estacionamento é gratuito (22:00 as 08:00). Se o bilhete for válido, uma mensagem será exibida ao cliente
-e a cancela será aberta quando o cliente retirar o bilhete da máquina. Se o bilhete for inválido para saída do
-estacionamento, uma mensagem será exibida informando que o estacionamento não foi pago.
-F7 – Caso seja inserido um cartão, o sistema registra o seu horário de saída e a duração da estadia. Uma mensagem
-será exibida no visor da máquina ao cliente e a cancela é aberta quando o cliente retirar o cartão da máquina.
-F8 – Quando o cliente retirar o cartão ou o bilhete da máquina de controle de saída após validação correta pelo
-sistema, o número de vagas ocupadas no estacionamento é diminuído e a cancela é aberta. Após o veículo passar
-pela lombada eletrônica, em três segundos a cancela é fechada.
-F9 – Caso o bilhete inserido na máquina de controle de saída seja inválido, o cliente deve retornar a um posto para
-pagar o estacionamento.
-3.1.3 Controle de Lotação
-F10 – O sistema deve especificar a lotação do estacionamento no visor da máquina de controle de entrada para
-ilustrar a ocupação do estacionamento antes do cliente retirar o bilhete ou usar um cartão.
-3.1.4 Tarifas
-F11 – O estacionamento apresenta uma franquia de vinte minutos. Portanto, caso o veículo permaneça até 20
-minutos no estacionamento não é necessário pagar o estacionamento nem passar em um caixa, pois o bilhete
-encontra-se válido nesse período.
-F12 – Passando dos 20 minutos da entrada, deve ser pago o estacionamento, contando da hora em que o cliente
-retirou o bilhete na máquina de controle de entrada. Até cinco horas, o estacionamento custa R$ 3,00. Após as
-cinco horas, para cada hora excedente, ou fração, é pago R$ 2,00. Nos domingos e nos feriados, o estacionamento
-possui um valor único de R$ 3,00.
-F13 – Entre as 22:00 e 08:00, o estacionamento é gratuito, portanto, caso o veículo tenha entrado e saído nesse
-intervalo não é necessário pagar o estacionamento, nem passar em um caixa, pois o bilhete encontra-se válido.
-Entretanto, caso o veículo tenha entrado antes das 22:00 ou saído depois das 08:00, o tempo de permanência fora
-desse intervalo deve ser pago em um caixa.
-F14 – De segunda a sexta, das 12:00 as 14:00, não é pago estacionamento se for apresentado ao atendente nos
-caixas de estacionamento um cupom fiscal de qualquer estabelecimento das praças de alimentação com valor
-mínimo de R$ 5,00. O atendente deve informar ao sistema o estabelecimento da praça de alimentação utilizado
-pelo cliente e o valor do cupom fiscal. Caso ultrapasse esse intervalo de almoço, será cobrado o estacionamento
-com o desconto desse intervalo.
-F15 – Em caso de extravio de bilhete, o valor do estacionamento a ser pago deve corresponder a uma diária, ou
-seja, o valor de estacionar o carro das 08:00 as 22:00. Para informar o ocorrido, o cliente deve ir a um caixa e
-também apresentar o documento do carro e seu documento de identidade, para comprovar que o veículo é seu.
-3.1.5 Controle de Clientes Preferenciais
-F16 – O sistema permite a inserção, remoção, alteração e busca de clientes preferenciais. Para requerer um cartão
-de cliente preferencial, o cliente deve ir ao caixa de estacionamento, informar a categoria do cliente (mensalista,
-lojista, empregado) e a periodicidade de renovação. O sistema cria um cartão para o cliente, que requer que sejam
-fornecidas as seguintes informações: placa, modelo, ano de fabricação e cor do veículo; nome completo, rg e cpf do
-cliente responsável; valor e forma de pagamento mensal; data de validade do cartão; desconto (de acordo com a
-categoria do cliente) e nome completo e carteira de habilitação dos possíveis condutores do veículo. O valor mensal
-sem desconto corresponde a R$ 60,00. Assim que o cartão é criado ele ainda se encontra desativado.
-F17 – As categorias de clientes do tipo lojista e empregado possuem descontos no valor mensal do cartão de
-estacionamento, de 20 e 10%, respectivamente.
-F18 – Para ativar o cartão, o cliente realiza o pagamento do cartão para determinada periodicidade, realiza o
-pagamento para o caixa do estacionamento e o cartão é ativado e entregue ao cliente.
-F19 – O cliente deve atualizar a data de validade do seu cartão a cada período escolhido durante a aquisição do
-cartão, realizando o pagamento da periodicidade ao caixa do estacionamento. O atendente muda a data de validade
-do cartão para o mês seguinte e, caso o cartão esteja desativado, ele passa a ser reativado.
-3.1.6 Pagamento de Estacionamento
-F20 – O sistema permite pagar o estacionamento em caixas de estacionamento, possibilitando a um cliente pagar o
-estacionamento a um atendente e, assim, deixar o bilhete como pago para que possa ser reconhecido na máquina de
-controle de saída como válido até 20 minutos após essa validação.
-F21 – O caixa de estacionamento permite inserir, remover, alterar e buscar cartões de clientes.
-F22 – O sistema deve permitir inserir, remover, alterar e buscar atendentes. Os atendentes serão os responsáveis
-por controlar os caixas de estacionamento.
-3.2 Requisitos de Interface Externa
-As máquinas de controle de entrada e saída devem fornecer uma interface para disponibilizar mensagens para os
-clientes. Essa interface com o cliente deve seguir requisitos ergonômicos, definidos pela equipe responsável e
-verificado por meio de testes com usuários finais.
-A interface gráfica com o atendente dos caixas de estacionamento deve seguir requisitos ergonômicos e de
-usabilidade, definidos pela equipe responsável e verificado por meio de testes com usuários finais.
-3.3 Requisitos de Performance
- Caso um cliente faça a requisição de um bilhete em uma máquina de controle de entrada e exista vaga no
-estacionamento, ele deve receber o bilhete em três segundos.
- Mensagens de erro devem ser mostradas até 10 segundos após a interação do usuário.
- Após um veículo passar pela lombada eletrônica, a cancela deve ser abaixada após três segundos.
- Apenas um veículo deve passar pela lombada eletrônica cada vez que a cancela for levantada.
- O sistema deve processar entradas e saídas de veículos do estacionamento ao mesmo tempo.
-3.4 Atributos
-3.4.1 Disponibilidade
-O sistema de estacionamento deve ficar disponível 24 horas por dia.
-3.4.2 Segurança
-O caixa de estacionamento deve funcionar apenas mediante fornecimento de senha.
-3.5 Outros Requisitos
-3.5.1 Banco de Dados
-O registro de estacionamento para portadores de cartão deve ter todas as propriedades de transações em uma base
-de dados (atomicidade, consistência, isolamento e durabilidade).
 
 
 
-https://edisciplinas.usp.br/pluginfile.php/1810162/mod_resource/content/1/Exercicio1DiagrCasosUsoBCC.pdf
+Funções desejadas no sistema (o que deve permitir fazer):
+
+-Cadastrar/registrar a entrada de veículos com detalhes de placa, marca, modelo
+
+-Gerar ticket/comprovante de estacionamento para o dono do veículo na entrada
+
+-Cobrar a estadia, no momento da retirada do veículo pelo dono, mediante apresentação do ticket de estacionamento
+
+-Integrar com meios de pagamento PIX, Cartão de crédito, Cartão de Débito e TAG (RFID de serviço de cancela automática/free pass)
+
+-Registrar a saída de veículos
+
+-Mapear vagas disponíveis para estacionar (quantas vagas livres existem e quantas estão ocupadas), com uso de sensores de presença de veículos nas vagas
+
+-Cadastrar tarifas por dias e horários de estacionamento avulso
+
+-Cadastrar preço de mensalista
+
+-Cadastrar donos de veículos
+
+-Definir descontos de programa de fidelidade dos clientes
+
+-Gerar nota fiscal de serviço após o pagamento
+
+-Registrar situação (avarias) do veículo na entrada e na saída
+
+-Possibilitar consulta prévia de vagas disponíveis pelo cliente do estacionamento
+
+-Controle de violação de regras de estacionamento
+
+-Mecanismo de sinalização que orienta o motorista a estacionar em uma vaga disponível
+
+-Relatório de taxa de ocupação do estacionamento
+
+-Consulta de ocupação no momento
+
+-Relatório de faturamento
+
+-Controle de abertura e fechamento automático de cancela
+
+-Fotografar ou filmar a imagem do veículo na entrada e saída, guardando streaming no software
+
+
+
+
+
+
+
+[21:01] Renato Jardim Parducci
+
+
+
+
+Brainstorm CONSOLIDADO do Sistema de Gerenciamento de Estacionamento
+
+Funções desejadas no sistema (o que deve permitir fazer):
+
+-Cadastrar/registrar a entrada de veículos com detalhes de placa, marca, modelo
+
+-Gerar ticket/comprovante de estacionamento para o dono do veículo na entrada
+
+-Cobrar a estadia, no momento da retirada do veículo pelo dono, mediante apresentação do ticket de estacionamento
+
+-Integrar com meios de pagamento PIX, Cartão de crédito, Cartão de Débito e TAG (RFID de serviço de cancela automática/free pass)
+
+-Registrar a saída de veículos
+
+-Mapear vagas disponíveis para estacionar (quantas vagas livres existem e quantas estão ocupadas), com uso de sensores de presença de veículos nas vagas
+
+-Cadastrar tarifas por dias e horários de estacionamento avulso
+
+-Cadastrar preço de mensalista
+
+-Cadastrar donos de veículos
+
+-Definir descontos de programa de fidelidade dos clientes
+
+-Gerar nota fiscal de serviço após o pagamento
+
+-Registrar situação (avarias) do veículo na entrada e na saída
+
+-Possibilitar consulta prévia de vagas disponíveis pelo cliente do estacionamento
+
+-Controle de violação de regras de estacionamento
+
+-Mecanismo de sinalização que orienta o motorista a estacionar em uma vaga disponível
+
+-Relatório de taxa de ocupação do estacionamento
+
+-Consulta de ocupação no momento
+
+-Relatório de faturamento
+
+-Controle de abertura e fechamento automático de cancela
+
+-Fotografar ou filmar a imagem do veículo na entrada e saída, guardando streaming no software
+
+-Controle de vagas preferenciais por tipo 
+
+
