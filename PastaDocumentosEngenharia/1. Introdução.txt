@@ -1,6 +1,5 @@
 
 
-
 Funções desejadas no sistema (o que deve permitir fazer):
 
 -Cadastrar/registrar a entrada de veículos com detalhes de placa, marca, modelo
@@ -42,14 +41,6 @@ Funções desejadas no sistema (o que deve permitir fazer):
 -Controle de abertura e fechamento automático de cancela
 
 -Fotografar ou filmar a imagem do veículo na entrada e saída, guardando streaming no software
-
-
-
-
-
-
-
-[21:01] Renato Jardim Parducci
 
 
 
